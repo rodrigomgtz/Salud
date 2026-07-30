@@ -179,7 +179,7 @@ nav{
   flex:0 0 auto;
   background:var(--bg);
   border-top:1px solid var(--line);
-  padding:6px 4px 10px;
+  padding:6px 4px 6px;
   display:flex;
 }
 nav button{
@@ -194,15 +194,12 @@ nav button.on{color:var(--acc2)}
 <body>
 <div class="bgfill"></div>
 
-<header class="hd" style="position:relative">
+<header class="hd">
   <h1>Programa de Rodrigo</h1>
   <div class="sub" id="sub">Calentamiento</div>
-  <span style="position:absolute;top:calc(14px + env(safe-area-inset-top));right:20px;font-size:10px;color:var(--txt3);font-weight:700;letter-spacing:.03em">v44</span>
 </header>
 
 <main>
-
-<div id="dbg" style="background:#6E8BA8;color:#0C1219;font-size:12px;font-weight:700;padding:7px 10px;border-radius:8px;margin:8px 0;text-align:center;line-height:1.5">…</div>
 
 <!-- CALENTAMIENTO -->
 <section class="pane on" data-p="cal">
@@ -814,27 +811,6 @@ function setDay(t){
   if(window.visualViewport){
     window.visualViewport.addEventListener('resize', setVH);
   }
-})();
-
-// ---- Diagnóstico de viewport (temporal) ----
-(function(){
-  const probe=document.createElement('div');
-  probe.style.cssText='position:fixed;bottom:0;left:0;height:env(safe-area-inset-bottom);width:1px;pointer-events:none;opacity:0';
-  document.body.appendChild(probe);
-  function unit(u){
-    const t=document.createElement('div');
-    t.style.cssText='position:fixed;top:0;left:0;width:1px;height:'+u+';opacity:0;pointer-events:none';
-    document.body.appendChild(t); const h=Math.round(t.getBoundingClientRect().height); t.remove(); return h;
-  }
-  function upd(){
-    const d=document.getElementById('dbg'); if(!d)return;
-    const sab=Math.round(probe.getBoundingClientRect().height);
-    const nav=document.querySelector('nav').getBoundingClientRect();
-    const btns=document.querySelectorAll('nav button');
-    const iconBot=btns.length?Math.round(btns[btns.length-1].getBoundingClientRect().bottom):0;
-    d.textContent='vvH '+Math.round((window.visualViewport&&window.visualViewport.height)||0)+' · navBottom '+Math.round(nav.bottom)+' · iconBottom '+iconBot+' · safeBot '+sab;
-  }
-  upd(); setTimeout(upd,400); window.addEventListener('resize',upd);
 })();
 
 // ---- Respaldo de pesos (exportar / importar) ----
