@@ -18,6 +18,7 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 html{height:100%}
 html,body{background:var(--bg);color:var(--txt)}
+.bgfill{position:fixed;left:0;right:0;top:0;height:100vh;background:var(--bg);z-index:-1;pointer-events:none}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   font-size:16px;line-height:1.45;
@@ -191,11 +192,12 @@ nav button.on{color:var(--acc2)}
 </style>
 </head>
 <body>
+<div class="bgfill"></div>
 
 <header class="hd" style="position:relative">
   <h1>Programa de Rodrigo</h1>
   <div class="sub" id="sub">Calentamiento</div>
-  <span style="position:absolute;top:calc(14px + env(safe-area-inset-top));right:20px;font-size:10px;color:var(--txt3);font-weight:700;letter-spacing:.03em">v43</span>
+  <span style="position:absolute;top:calc(14px + env(safe-area-inset-top));right:20px;font-size:10px;color:var(--txt3);font-weight:700;letter-spacing:.03em">v44</span>
 </header>
 
 <main>
