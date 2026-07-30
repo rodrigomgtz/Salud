@@ -196,7 +196,7 @@ nav button.on{color:var(--acc2)}
 <header class="hd" style="position:relative">
   <h1>Programa de Rodrigo</h1>
   <div class="sub" id="sub">Calentamiento</div>
-  <span style="position:absolute;top:calc(14px + env(safe-area-inset-top));right:20px;font-size:10px;color:var(--txt3);font-weight:700;letter-spacing:.03em">v39</span>
+  <span style="position:absolute;top:calc(14px + env(safe-area-inset-top));right:20px;font-size:10px;color:var(--txt3);font-weight:700;letter-spacing:.03em">v40</span>
 </header>
 
 <main>
@@ -820,13 +820,16 @@ function setDay(t){
   const probe=document.createElement('div');
   probe.style.cssText='position:fixed;bottom:0;left:0;height:env(safe-area-inset-bottom);width:1px;pointer-events:none;opacity:0';
   document.body.appendChild(probe);
+  function unit(u){
+    const t=document.createElement('div');
+    t.style.cssText='position:fixed;top:0;left:0;width:1px;height:'+u+';opacity:0;pointer-events:none';
+    document.body.appendChild(t); const h=Math.round(t.getBoundingClientRect().height); t.remove(); return h;
+  }
   function upd(){
     const d=document.getElementById('dbg'); if(!d)return;
     const sab=Math.round(probe.getBoundingClientRect().height);
-    const nav=document.querySelector('nav').getBoundingClientRect();
-    d.textContent='innerH '+window.innerHeight+' · screenH '+screen.height
-      +' · safeBottom '+sab+' · vvH '+Math.round((window.visualViewport&&window.visualViewport.height)||0)
-      +' · navBottom '+Math.round(nav.bottom);
+    d.textContent='innerH '+window.innerHeight+' · screenH '+screen.height+' · safeBot '+sab
+      +' | vh '+unit('100vh')+' · dvh '+unit('100dvh')+' · svh '+unit('100svh')+' · lvh '+unit('100lvh');
   }
   upd(); setTimeout(upd,400); window.addEventListener('resize',upd);
 })();
