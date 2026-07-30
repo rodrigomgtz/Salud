@@ -159,7 +159,7 @@ h2:first-child{margin-top:12px}
 .wverdict.hi{background:#241C1C;color:#CEA9A9;border:1px solid #402C2C}
 .wverdict.lo{background:#1A2028;color:#8FA6BE;border:1px solid #2A3644}
 .wverdict.na{background:var(--bg2);color:var(--txt3);border:1px solid var(--line)}
-.whrow{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.whrow{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);font-size:14.5px}
 .whrow:last-child{border-bottom:none}
 .whrow .hk{color:var(--txt2)}
 .whrow .hv{font-weight:700;color:var(--txt);font-variant-numeric:tabular-nums}
@@ -709,7 +709,7 @@ function wHistory(){
   const box=document.getElementById('whist');box.innerHTML='';
   const st=document.createElement('div');st.className='whrow';
   st.innerHTML='<span class="hk">29 jun<span style="color:var(--txt3);font-size:12px"> · inicio</span></span>'
-    +'<span style="display:flex;gap:12px;align-items:baseline"><span class="hv">61.50 kg</span><span class="hd"></span></span>';
+    +'<span style="display:flex;gap:12px;align-items:center"><span class="hv">61.50 kg</span><span class="hd"></span></span>';
   box.appendChild(st);
   if(!rows.length)return;
   rows.forEach((r,i)=>{
@@ -725,7 +725,7 @@ function wHistory(){
       }
     }
     el.innerHTML='<span class="hk">'+wFmtDate(r.mon)+'<span style="color:var(--txt3);font-size:12px"> · '+r.n+' pesajes</span></span>'
-      +'<span style="display:flex;gap:12px;align-items:baseline"><span class="hv">'+r.avg.toFixed(2)+' kg</span>'+dHtml+'</span>';
+      +'<span style="display:flex;gap:12px;align-items:center"><span class="hv">'+r.avg.toFixed(2)+' kg</span>'+dHtml+'</span>';
     box.appendChild(el);
   });
 }
