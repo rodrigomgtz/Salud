@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="theme-color" content="#0D0F12">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -179,7 +179,7 @@ nav{
   flex:0 0 auto;
   background:var(--bg);
   border-top:1px solid var(--line);
-  padding:6px 4px 6px;
+  padding:6px 4px calc(6px + env(safe-area-inset-bottom));
   display:flex;
 }
 nav button{
@@ -194,9 +194,10 @@ nav button.on{color:var(--acc2)}
 <body>
 <div class="bgfill"></div>
 
-<header class="hd">
+<header class="hd" style="position:relative">
   <h1>Programa de Rodrigo</h1>
   <div class="sub" id="sub">Calentamiento</div>
+  <span style="position:absolute;top:calc(14px + env(safe-area-inset-top));right:20px;font-size:10px;color:var(--txt3);font-weight:700;letter-spacing:.03em">v46</span>
 </header>
 
 <main>
