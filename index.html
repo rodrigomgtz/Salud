@@ -42,7 +42,7 @@ main{
   overflow-y:auto;
   overscroll-behavior:contain;
   -webkit-overflow-scrolling:touch;
-  padding:8px 20px 56px;
+  padding:8px 20px calc(64px + env(safe-area-inset-bottom));
   max-width:560px;width:100%;margin:0 auto;
 }
 .pane{display:none}.pane.on{display:block}
@@ -174,7 +174,9 @@ details .body strong{color:var(--txt)}
 .bkpbtn{width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--txt);font-family:inherit;font-size:14px;font-weight:700;padding:11px 0;border-radius:10px;cursor:pointer;margin-top:8px}
 .bkptxt{width:100%;margin-top:8px;background:var(--bg2);border:1px solid var(--line);color:var(--txt);font-family:inherit;font-size:13px;border-radius:10px;padding:10px;min-height:64px;resize:vertical}
 nav{
-  flex:0 0 auto;
+  position:fixed;
+  left:0;right:0;bottom:0;
+  z-index:50;
   background:var(--bg);
   border-top:1px solid var(--line);
   padding:6px 4px calc(2px + env(safe-area-inset-bottom));
