@@ -178,7 +178,7 @@ nav{
   flex:0 0 auto;
   background:var(--bg);
   border-top:1px solid var(--line);
-  padding:6px 4px calc(2px + env(safe-area-inset-bottom));
+  padding:6px 4px calc(18px + env(safe-area-inset-bottom));
   display:flex;
 }
 nav button{
@@ -195,7 +195,7 @@ nav button.on{color:var(--acc2)}
 <header class="hd" style="position:relative">
   <h1>Programa de Rodrigo</h1>
   <div class="sub" id="sub">Calentamiento</div>
-  <span style="position:absolute;top:calc(14px + env(safe-area-inset-top));right:20px;font-size:10px;color:var(--txt3);font-weight:700;letter-spacing:.03em">v41</span>
+  <span style="position:absolute;top:calc(14px + env(safe-area-inset-top));right:20px;font-size:10px;color:var(--txt3);font-weight:700;letter-spacing:.03em">v42</span>
 </header>
 
 <main>
@@ -828,8 +828,9 @@ function setDay(t){
     const d=document.getElementById('dbg'); if(!d)return;
     const sab=Math.round(probe.getBoundingClientRect().height);
     const nav=document.querySelector('nav').getBoundingClientRect();
-    d.textContent='screenH '+screen.height+' · navBottom '+Math.round(nav.bottom)+' · safeBot '+sab
-      +(Math.round(nav.bottom)>=screen.height-2?' ✓ OK':' ✗ falta '+(screen.height-Math.round(nav.bottom)));
+    const btns=document.querySelectorAll('nav button');
+    const iconBot=btns.length?Math.round(btns[btns.length-1].getBoundingClientRect().bottom):0;
+    d.textContent='screenH '+screen.height+' · navBottom '+Math.round(nav.bottom)+' · iconBottom '+iconBot+' · safeBot '+sab;
   }
   upd(); setTimeout(upd,400); window.addEventListener('resize',upd);
 })();
