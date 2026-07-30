@@ -22,7 +22,6 @@ body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   font-size:16px;line-height:1.45;
   -webkit-font-smoothing:antialiased;
-  height:100dvh;
   display:flex;
   flex-direction:column;
   overflow:hidden;
@@ -172,6 +171,8 @@ details[open] summary::after{content:"\2013"}
 details .body{padding:0 0 14px}
 details .body p{font-size:14px;color:var(--txt2);margin:4px 0}
 details .body strong{color:var(--txt)}
+.bkpbtn{width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--txt);font-family:inherit;font-size:14px;font-weight:700;padding:11px 0;border-radius:10px;cursor:pointer;margin-top:8px}
+.bkptxt{width:100%;margin-top:8px;background:var(--bg2);border:1px solid var(--line);color:var(--txt);font-family:inherit;font-size:13px;border-radius:10px;padding:10px;min-height:64px;resize:vertical}
 nav{
   flex:0 0 auto;
   background:var(--bg);
@@ -360,6 +361,17 @@ nav button.on{color:var(--acc2)}
   <h2>Historial de promedios</h2>
   <div id="whist"></div>
   <p style="font-size:12.5px;color:var(--txt3);margin-top:16px">Pésate en ayunas al despertar. Meta: +0.25–0.4 kg por semana.</p>
+
+  <details>
+    <summary>Respaldo de datos</summary>
+    <div class="body">
+      <p>Copia tus pesos para guardarlos, o pega un respaldo para restaurarlos.</p>
+      <button type="button" class="bkpbtn" id="expBtn">Copiar mis datos</button>
+      <textarea id="impTxt" class="bkptxt" placeholder="Pega aquí tu respaldo…"></textarea>
+      <button type="button" class="bkpbtn" id="impBtn">Restaurar</button>
+      <p id="bkpMsg" style="color:var(--acc2);font-weight:700"></p>
+    </div>
+  </details>
 </section>
 
 <!-- CALCULADORA -->
@@ -796,6 +808,32 @@ function setDay(t){
   if(window.visualViewport){
     window.visualViewport.addEventListener('resize', setVH);
   }
+})();
+
+// ---- Respaldo de pesos (exportar / importar) ----
+(function(){
+  const exp=document.getElementById('expBtn'), impB=document.getElementById('impBtn'),
+        txt=document.getElementById('impTxt'), msg=document.getElementById('bkpMsg');
+  if(exp) exp.addEventListener('click',()=>{
+    const data=localStorage.getItem('rmk_peso')||'{}';
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(data)
+        .then(()=>{msg.textContent='Datos copiados. Guárdalos en Notas o mándatelos por mensaje.';})
+        .catch(()=>{txt.value=data;msg.textContent='Copia el texto del recuadro de arriba.';});
+    } else { txt.value=data; msg.textContent='Copia el texto del recuadro de arriba.'; }
+  });
+  if(impB) impB.addEventListener('click',()=>{
+    let o; try{ o=JSON.parse((txt.value||'').trim()); }
+    catch(e){ msg.textContent='Formato inválido. Pega el texto tal cual lo copiaste.'; return; }
+    if(!o||typeof o!=='object'||Array.isArray(o)){ msg.textContent='Formato inválido.'; return; }
+    const clean={}; let n=0;
+    for(const k in o){ if(/^\d{4}-\d{2}-\d{2}$/.test(k)&&typeof o[k]==='number'&&o[k]>0){ clean[k]=Math.round(o[k]*10)/10; n++; } }
+    if(!n){ msg.textContent='No encontré pesos válidos en ese texto.'; return; }
+    const cur=JSON.parse(localStorage.getItem('rmk_peso')||'{}');
+    localStorage.setItem('rmk_peso', JSON.stringify(Object.assign({},cur,clean)));
+    msg.textContent='Restaurado: '+n+' pesos. Recargando…';
+    setTimeout(()=>location.reload(),700);
+  });
 })();
 
 if('serviceWorker' in navigator){
