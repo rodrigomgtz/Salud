@@ -1,0 +1,33 @@
+PROGRAMA · APP PWA
+==================
+
+COMO SUBIR A NETLIFY
+--------------------
+1. Entra a https://app.netlify.com (crea cuenta gratis si no tienes).
+2. En el dashboard, arrastra ESTA CARPETA COMPLETA (o el ZIP descomprimido)
+   a la zona que dice "Drag and drop your site output folder here".
+   - Alternativa: Sites > Add new site > Deploy manually > arrastra la carpeta.
+3. Netlify te da una URL tipo https://random-name.netlify.app
+4. (Opcional) Cambia el nombre del sitio en Site settings > Change site name.
+
+COMO INSTALAR EN IPHONE
+-----------------------
+1. Abre la URL de Netlify en SAFARI (no Chrome).
+2. Toca el botón Compartir (cuadro con flecha hacia arriba).
+3. "Agregar a inicio" / "Add to Home Screen".
+4. Aparece como app con icono propio. Funciona offline.
+
+ARCHIVOS
+--------
+index.html    - la app completa
+manifest.json - config PWA (nombre, icono, colores)
+sw.js         - service worker (funciona offline)
+icon-192.png  - icono chico
+icon-512.png  - icono grande
+netlify.toml  - config de Netlify
+
+ACTUALIZAR
+----------
+Si cambias index.html, vuelve a arrastrar la carpeta a Netlify (mismo sitio,
+"Deploys" > arrastra). Los datos guardados (semanas, día seleccionado) se
+mantienen porque viven en el localStorage del teléfono, no en el archivo.
