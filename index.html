@@ -191,7 +191,7 @@ nav button.on{color:var(--acc2)}
 <div class="bgfill"></div>
 
 <span id="sub" hidden></span>
-<span style="position:fixed;top:calc(6px + env(safe-area-inset-top));right:14px;font-size:10px;color:var(--txt3);font-weight:700;letter-spacing:.03em;z-index:5;pointer-events:none">v51</span>
+<span style="position:fixed;top:calc(6px + env(safe-area-inset-top));right:14px;font-size:10px;color:var(--txt3);font-weight:700;letter-spacing:.03em;z-index:5;pointer-events:none">v52</span>
 
 <main>
 
@@ -547,7 +547,7 @@ function renderDay(day){
     wb.appendChild(b);
   }
   // phase box
-  const ph=PHASE[w];
+  const ph=PHASE[week-1];
   const pb=document.querySelector('.phasebox[data-day="'+day+'"]');
   pb.innerHTML='<div class="phase '+PCLASS[ph]+'">Semana '+week+(hist?' · historial':'')+' — '+PLABEL[ph]+'</div>';
   // exercises
