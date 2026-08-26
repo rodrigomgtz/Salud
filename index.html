@@ -80,6 +80,11 @@ main{
 .ex .n{font-size:15.5px;font-weight:600;color:var(--txt);flex:1}
 .ex .v{font-size:16px;font-weight:700;color:var(--acc2);white-space:nowrap;font-variant-numeric:tabular-nums;text-align:right}
 .ex .v small{display:block;font-size:11.5px;font-weight:500;color:var(--txt3);margin-top:2px}
+.ex .pair{font-size:11px;color:var(--txt3);text-transform:uppercase;letter-spacing:.06em;padding:12px 0 0;font-weight:600}
+.ex .pair:first-child{padding-top:4px}
+details.hist{margin-top:18px;border-top:1px solid var(--line)}
+details.hist .body{padding:0 0 10px}
+details.hist .weeks{margin:4px 0 2px}
 
 .rope{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0}
 .rope .big{font-size:19px;font-weight:700;color:var(--acc2)}
@@ -197,7 +202,7 @@ nav button.on{color:var(--acc2)}
 <header class="hd" style="position:relative">
   <h1>Programa de Rodrigo</h1>
   <div class="sub" id="sub">Calentamiento</div>
-  <span style="position:absolute;top:calc(14px + env(safe-area-inset-top));right:20px;font-size:10px;color:var(--txt3);font-weight:700;letter-spacing:.03em">v48</span>
+  <span style="position:absolute;top:calc(14px + env(safe-area-inset-top));right:20px;font-size:10px;color:var(--txt3);font-weight:700;letter-spacing:.03em">v49</span>
 </header>
 
 <main>
@@ -238,6 +243,7 @@ nav button.on{color:var(--acc2)}
   <div class="dtitle">Strength · squat + arms</div>
   <div class="ex" data-day="lun"></div>
   <div class="savebar" data-day="lun"></div>
+  <details class="hist"><summary>Historial S1–S7</summary><div class="body"><div class="weeks" data-hist="lun"></div><div class="ex" data-hist="lun"></div></div></details>
 </section>
 
 <!-- MIÉRCOLES -->
@@ -248,6 +254,7 @@ nav button.on{color:var(--acc2)}
   <div class="dtitle">Hinge + arms + grip</div>
   <div class="ex" data-day="mie"></div>
   <div class="savebar" data-day="mie"></div>
+  <details class="hist"><summary>Historial S1–S7</summary><div class="body"><div class="weeks" data-hist="mie"></div><div class="ex" data-hist="mie"></div></div></details>
 </section>
 
 <!-- JUEVES -->
@@ -258,6 +265,7 @@ nav button.on{color:var(--acc2)}
   <div class="dtitle">Light · arms + forearms</div>
   <div class="ex" data-day="jue"></div>
   <div class="savebar" data-day="jue"></div>
+  <details class="hist"><summary>Historial S1–S7</summary><div class="body"><div class="weeks" data-hist="jue"></div><div class="ex" data-hist="jue"></div></div></details>
 </section>
 
 <!-- BONUS -->
@@ -273,6 +281,7 @@ nav button.on{color:var(--acc2)}
   <div class="dtitle">Sábado</div>
   <div class="ex" data-day="bon"></div>
   <div class="savebar" data-day="bon"></div>
+  <details class="hist"><summary>Historial S1–S7</summary><div class="body"><div class="weeks" data-hist="bon"></div><div class="ex" data-hist="bon"></div></div></details>
 </section>
 
 <!-- NUTRICIÓN -->
@@ -430,7 +439,8 @@ nav button.on{color:var(--acc2)}
 <script>
 // ---- Program data: weight (kg) + reps per week, weeks 1..8 ----
 // phase per week: a=adaptación, h=exigente, d=deload
-const PHASE=['a','a','a','h','d','h','h','h'];
+const PHASE=['a','a','a','h','d','h','h','h','b','b','b','d','h','h','h','d'];
+const BLOCK2_START=9;
 // helper: w=array of 8 weights, r=array of 8 rep targets, unit label
 function E(n,w,r,u){return{n,w,r,u:u||''}}
 const DATA={
@@ -454,7 +464,7 @@ const DATA={
     E('Pec fly (máquina)',   [20,20,25,25,25,30,30,35],['3×12','3×12','3×12','3×12','2×12','3×12','3×12','3×12'],'kg'),
     E('Seated cable row',    [26,28,30,32,32,36,38,42],['3×12','3×12','3×12','3×12','2×12','3×12','3×12','3×12'],'kg'),
     E('Lateral raise',       [4,4,6,6,6,6,8,8],['3×15','3×15','3×15','3×15','2×15','3×15','3×15','3×15'],'kg ea'),
-    E('Incline curl',        [4,4,6,6,6,8,8,10],['3×12','3×12','3×12','3×12','2×12','3×12','3×12','3×14'],'kg ea'),
+    E('Incline curl',        [4,4,6,6,6,8,8,10],['3×12','3×12','3×12','3×12','2×12','3×12','3×12','3×10'],'kg ea'),
     E('Tricep kickback',     [4,4,6,6,6,6,8,8],['3×12','3×12','3×12','3×12','2×12','3×12','3×12','3×12'],'kg ea'),
     E('Dead bug',            [0,0,0,0,0,0,0,0],['3×8','3×8','3×10','3×10','2×10','3×10','3×12','3×12'],'corporal'),
     E('Wrist curl · extra',  [4,4,6,6,6,6,8,8],['3×15','3×15','3×15','3×15','2×15','3×15','3×15','3×15'],'kg'),
@@ -468,8 +478,47 @@ const DATA={
     E('Side plank',           [0,0,0,0,0,0,0,0],['3×25 s','3×25 s','3×25 s','3×30 s','2×25 s','3×30 s','3×35 s','3×40 s'],'corporal · cada lado'),
   ],
 };
-const PLABEL={a:'Adaptación · técnica y tejido',h:'Exigente · empuja fuerte',d:'Deload · recupera (2 series)'};
-const PCLASS={a:'adapt',h:'hard',d:'deload'};
+// ---- Bloque 2: S9..S16 (index 0..7). Regla: 2 reps en reserva; basicos nunca menos de 2 ----
+const DATA2={
+  lun:[
+    E('Goblet squat',          [22,22,24,20,26,26,28,22],['3×10','3×12','3×10','2×10','3×8','3×10','3×10','2×10'],'kg'),
+    E('Dumbbell bench press',  [14,16,16,12,18,18,20,14],['3×10','3×10','3×12','2×10','3×8','3×10','3×8','2×10'],'kg ea'),
+    E('One-arm dumbbell row',  [16,18,18,14,20,20,22,16],['3×10','3×10','3×12','2×10','3×10','3×10','3×12','2×10'],'kg'),
+    E('Triceps pushdown · cuerda',[15,15,17.5,12.5,17.5,20,20,15],['3×12','3×12','3×12','2×12','3×12','3×12','3×12','2×12'],'kg'),
+    E('Dumbbell biceps curl',  [10,10,12,8,12,12,14,10],['3×10','3×10','3×10','2×10','3×10','3×10','3×10','2×10'],'kg ea'),
+    E('Pallof press',          [10,10,10,7.5,12.5,12.5,12.5,10],['3×10 · 2s','3×12 · 2-3s','3×12 · 2-3s','2×10 · 2s','3×10 · 2-3s','3×12 · 2-3s','3×12 · 2-3s','2×10 · 2s'],'kg · cada lado'),
+  ],
+  mie:[
+    E('Romanian deadlift',     [20,22,22,16,24,24,26,20],['3×10','3×10','3×12','2×10','3×10','3×10','3×10','2×10'],'kg ea'),
+    E('Incline DB press 30°',  [12,14,14,10,16,16,16,12],['3×10','3×10','3×12','2×10','3×8','3×10','3×10','2×10'],'kg ea'),
+    E('Lat pulldown',          [40,42,44,32,46,48,50,40],['4×12','4×12','4×12','2×12','4×12','4×12','4×12','2×12'],'kg'),
+    E('Face pull',             [12.5,12.5,12.5,10,15,15,15,12.5],['3×15','3×15','3×15','2×15','3×15','3×15','3×15','2×15'],'kg'),
+    E('Hammer curl',           [10,10,12,8,12,12,14,10],['3×10','3×10','3×10','2×10','3×10','3×10','3×10','2×10'],'kg ea'),
+    E("Farmer's carry",        [24,26,26,20,28,28,30,24],['40 m','40 m','40 m','30 m','40 m','40 m','40 m','30 m'],'kg ea'),
+  ],
+  jue:[
+    E('Pec fly (máquina)',     [30,35,35,25,40,40,40,30],['3×12','3×12','3×12','2×12','3×12','3×12','3×12','2×12'],'kg'),
+    E('Chest-supported DB row',[12,12,14,10,14,16,16,12],['3×12','3×12','3×12','2×12','3×12','3×12','3×12','2×12'],'kg ea'),
+    E('Lateral raise',         [6,8,8,6,8,8,10,6],['3×15','3×15','3×15','2×15','3×15','3×15','3×15','2×15'],'kg ea'),
+    E('Tricep kickback',       [6,8,8,6,8,8,10,6],['3×12','3×12','3×12','2×12','3×12','3×12','3×12','2×12'],'kg ea'),
+    E('Incline curl',          [8,8,8,6,10,10,10,8],['3×10','3×12','3×12','2×10','3×10','3×12','3×12','2×10'],'kg ea'),
+    E('Dead bug',              [0,0,0,0,0,0,0,0],['3×10','3×12','3×12','2×10','3×12','3×14','3×14','2×10'],'corporal'),
+    E('Wrist curl · solo',     [6,8,8,6,8,8,10,6],['3×15','3×15','3×15','2×15','3×15','3×15','3×15','2×15'],'kg'),
+  ],
+  bon:[
+    E('KB swing ruso',         [20,24,24,16,24,28,28,20],['4×12','4×12','4×15','2×12','4×12','4×12','4×15','2×12'],'kg'),
+    E('Bulgarian split squat', [14,16,16,12,18,18,20,14],['3×8','3×10','3×10','2×8','3×8','3×10','3×10','2×8'],'kg ea'),
+    E('Pallof con paso',       [7.5,7.5,10,7.5,10,12.5,12.5,7.5],['3×8 · 2s','3×8 · 2s','3×10 · 2s','2×8 · 2s','3×8 · 2s','3×10 · 2s','3×10 · 2s','2×8 · 2s'],'kg · cada lado'),
+    E('Rear delt fly polea',   [7.5,7.5,7.5,5,10,10,10,7.5],['3×15','3×15','3×15','2×15','3×15','3×15','3×15','2×15'],'kg · cada lado'),
+    E('Cable fly alto a bajo', [5,5,6,4,7,7,8,5],['3×12','3×12','3×12','2×12','3×12','3×12','3×12','2×12'],'nivel Kinesis'),
+    E('Close-grip DB press',   [10,10,12,8,12,14,14,10],['3×10','3×10','3×10','2×10','3×10','3×10','3×10','2×10'],'kg ea'),
+    E('Suitcase carry · solo', [16,16,18,14,20,20,22,16],['3×30 m','3×30 m','3×30 m','2×30 m','3×30 m','3×30 m','3×30 m','2×30 m'],'kg · cada lado'),
+  ],
+};
+const PLABEL={a:'Adaptación · técnica y tejido',b:'Construcción · 2 reps en reserva',h:'Exigente · empuja fuerte',d:'Deload · recupera (2 series)'};
+const PCLASS={a:'adapt',b:'adapt',h:'hard',d:'deload'};
+function dataFor(week){return week>=BLOCK2_START?DATA2:DATA}
+function idxFor(week){return week>=BLOCK2_START?week-BLOCK2_START:week-1}
 
 // weight unit (kg | lb)
 let UNIT='kg';
@@ -492,7 +541,7 @@ function setUnit(v){
 const curWeek={lun:1,mie:1,jue:1,bon:1};
 function savedWeek(day){try{return +localStorage.getItem('rmk_w_'+day)||1}catch(e){return 1}}
 function renderDay(day){
-  const w=curWeek[day]-1;
+  const week=curWeek[day], w=idxFor(week), block2=week>=BLOCK2_START;
   // unit toggle
   const ub=document.querySelector('.unitbar[data-day="'+day+'"]');
   ub.innerHTML='<button class="'+(UNIT==='kg'?'on':'')+'">kg</button><button class="'+(UNIT==='lb'?'on':'')+'">lb</button>';
@@ -501,7 +550,7 @@ function renderDay(day){
   // week buttons
   const wb=document.querySelector('.weeks[data-day="'+day+'"]');
   wb.innerHTML='';
-  for(let i=1;i<=8;i++){
+  for(let i=8;i<=16;i++){
     const b=document.createElement('button');b.textContent='S'+i;
     if(i===curWeek[day])b.classList.add('on');
     if(i===savedWeek(day))b.classList.add('saved');
@@ -515,7 +564,12 @@ function renderDay(day){
   // exercises
   const ex=document.querySelector('.ex[data-day="'+day+'"]');
   ex.innerHTML='';
-  DATA[day].forEach(e=>{
+  dataFor(week)[day].forEach((e,i)=>{
+    if(block2&&i%2===0){
+      const pl=document.createElement('div');pl.className='pair';
+      pl.textContent=(i+1<dataFor(week)[day].length)?'Par '+(i/2+1):'Solo · al final';
+      ex.appendChild(pl);
+    }
     const kg=e.w[w];
     const load=fmtLoad(kg,e.u);
     const row=document.createElement('div');row.className='row';
@@ -533,6 +587,28 @@ function renderDay(day){
     btn.textContent='✓ Guardada';btn.classList.add('flash');
     setTimeout(()=>renderDay(day),1200);
   };
+  renderHist(day);
+}
+// historial S1-S7 (bloque 1)
+const curHist={lun:7,mie:7,jue:7,bon:7};
+function renderHist(day){
+  const wb=document.querySelector('.weeks[data-hist="'+day+'"]');
+  const ex=document.querySelector('.ex[data-hist="'+day+'"]');
+  if(!wb||!ex)return;
+  wb.innerHTML='';
+  for(let i=1;i<=7;i++){
+    const b=document.createElement('button');b.textContent='S'+i;
+    if(i===curHist[day])b.classList.add('on');
+    b.onclick=()=>{curHist[day]=i;renderHist(day);};
+    wb.appendChild(b);
+  }
+  const w=curHist[day]-1;
+  ex.innerHTML='';
+  DATA[day].forEach(e=>{
+    const row=document.createElement('div');row.className='row';
+    row.innerHTML='<span class="n">'+e.n+'</span><span class="v">'+e.r[w]+'<small>'+fmtLoad(e.w[w],e.u)+'</small></span>';
+    ex.appendChild(row);
+  });
 }
 
 // tabs
@@ -547,7 +623,7 @@ function show(id,s){
 tabs.addEventListener('click',e=>{const b=e.target.closest('button');if(b)show(b.dataset.t,b.dataset.s)});
 
 // init
-['lun','mie','jue','bon'].forEach(d=>{curWeek[d]=savedWeek(d);renderDay(d);});
+['lun','mie','jue','bon'].forEach(d=>{curWeek[d]=Math.max(8,savedWeek(d));renderDay(d);});
 const map={1:'lun',2:'jue',3:'mie',6:'bon'},lbl={cal:'Calentamiento',lun:'Lunes',mie:'Miércoles',jue:'Martes',bon:'Sábado',calc:'Calculadora',nut:'Nutrición',peso:'Peso'};
 let start='cal';
 try{const t=localStorage.getItem('rmk_t');if(t)start=t;else{const d=map[new Date().getDay()];if(d)start=d;}}catch(e){}
