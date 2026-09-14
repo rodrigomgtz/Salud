@@ -1,4 +1,4 @@
-const CACHE = 'programa-v58';
+const CACHE = 'programa-v59';
 const ASSETS = [
   './',
   './index.html',
